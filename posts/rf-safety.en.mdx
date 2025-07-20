@@ -1,0 +1,168 @@
+---
+title: RF Radiation Safety
+description: Important safety aspects when working with radio frequency radiation. SAR, calculation of safe distances.
+date: 2023-12-20
+readTime: 6
+tags: ["Safety", "RF", "SAR"]
+featured: false
+---
+Radio frequency (RF) radiation is an integral part of amateur radio activities. Understanding safety principles is critically important for the health of the operator and those around them.
+
+## Basics of RF Radiation
+
+### What is RF Radiation?
+RF radiation refers to electromagnetic waves in the range from 3 kHz to 300 GHz. In amateur radio bands, we primarily operate in the 1.8-1300 MHz range.
+
+### Types of Exposure:
+- **Thermal**: heating of tissues due to absorption of RF energy
+- **Non-thermal**: biological effects at low levels
+- **Induced currents**: in conductive objects
+
+## SAR - Specific Absorption Rate
+
+SAR (Specific Absorption Rate) is the main parameter for assessing the impact of RF radiation on biological tissues.
+
+### Units of Measurement:
+- **Watts per kilogram (W/kg)**
+- **Milliwatts per gram (mW/g)**
+
+### Permissible Exposure Limits:
+- **Occupational Exposure**: 0.4 W/kg (averaged over the whole body)
+- **General Public**: 0.08 W/kg (averaged over the whole body)
+- **Local Exposure**: up to 2 W/kg (10 g of tissue)
+
+## Calculation of Safe Distances
+
+### Formula for Calculating Power Density:
+
+\`\`\`
+S = P × G / (4π × R²)
+
+where:
+S - power density (W/m²)
+P - transmitter power (W)
+G - antenna gain (ratio)
+R - distance from antenna (m)
+\`\`\`
+
+### Calculation Example:
+100 W transmitter, Yagi antenna with 10 dBi gain (G=10):
+
+\`\`\`
+Safe distance for general public (S = 1 W/m²):
+R = √(P × G / (4π × S))
+R = √(100 × 10 / (4π × 1)) = √(79.6) ≈ 9 meters
+\`\`\`
+
+## Practical Recommendations
+
+### Antenna Placement:
+1. **Mounting Height**: minimum 3 meters above ground level
+2. **Distance from Residential Areas**: at least 10 meters for 100 W
+3. **Radiation Direction**: avoid directing towards residential buildings
+4. **Multi-story Buildings**: special caution with vertical antennas
+
+### In the Shack:
+1. **Distance from Operator**: minimum 50 cm from the antenna
+2. **Grounding**: proper grounding of equipment
+3. **Shielding**: use shielded cables
+4. **Power**: operate with the minimum necessary power
+
+## Measuring RF Fields
+
+### Measurement Devices:
+- **Field Strength Meters**: for HF/VHF/UHF
+- **Spectrum Analyzers**: with antenna for measurements
+- **Specialized SAR meters**: professional devices
+
+### DIY Indicators:
+\`\`\`cpp
+// Simple RF Detector on Arduino
+int rfPin = A0;
+int ledPin = 13;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int rfLevel = analogRead(rfPin);
+  float voltage = rfLevel * (5.0 / 1023.0);
+  
+  Serial.print("RF Level: ");
+  Serial.println(voltage);
+  
+  if (voltage > 2.5) {
+    digitalWrite(ledPin, HIGH); // High RF level
+  } else {
+    digitalWrite(ledPin, LOW);
+  }
+  
+  delay(100);
+}
+\`\`\`
+
+## Characteristics of Different Bands
+
+### HF (1.8-30 MHz):
+- **Penetration**: deep tissue penetration
+- **Primary Hazard**: general body heating
+- **Protection Measures**: increase distance, reduce power
+
+### VHF/UHF (30-3000 MHz):
+- **Penetration**: superficial, localized heating
+- **Primary Hazard**: heating of skin and subcutaneous tissues
+- **Protection Measures**: avoid direct exposure
+
+### Microwaves (>1 GHz):
+- **Penetration**: very superficial
+- **Primary Hazard**: skin burns, eye damage
+- **Protection Measures**: shielding, remote control
+
+## Medical Aspects
+
+### Symptoms of RF Exposure:
+- Headache and fatigue
+- Sleep disturbances
+- Localized skin heating
+- Metallic taste in mouth
+
+### Risk Groups:
+- People with pacemakers
+- Pregnant women
+- Children (more sensitive to RF)
+- People with metal implants
+
+## Regulatory Documents
+
+### Russian Standards:
+- **SanPiN 2.1.8/2.2.4.1383-03**: Hygienic requirements for placement and operation of radio transmitting facilities
+- **GOST R 51070-97**: Electromagnetic compatibility of technical means
+
+### International Standards:
+- **IEEE C95.1**: Safety standard for human exposure
+- **ICNIRP Guidelines**: International recommendations
+
+## Practical Tips for Radio Amateurs
+
+### Daily Operation:
+1. **Use minimum power** required to establish communication
+2. **Take breaks** during long sessions
+3. **Monitor your well-being** during operation
+4. **Inform neighbors** about station operating procedures
+
+### Equipment Installation:
+1. **Professional installation** of antennas at height
+2. **High-quality cables** and connectors
+3. **Regular SWR checks** and tuning
+4. **Documentation** of safety calculations
+
+## Conclusion
+
+Safety when working with RF radiation is not paranoia, but reasonable precaution. Proper calculations, quality equipment installation, and compliance with norms allow you to enjoy amateur radio without health risks.
+
+Remember: better safe than sorry!
+
+**73! UB4HUW** 📻
+\`\`\`

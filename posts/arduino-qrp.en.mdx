@@ -1,0 +1,177 @@
+---
+title: QRP Transceiver on Arduino and Si5351
+description: Building a simple QRP transceiver using Arduino and the Si5351 frequency synthesizer. Schematic, code, and setup.
+date: 2024-01-05
+readTime: 15
+tags: ["Arduino", "QRP", "Si5351", "DIY"]
+featured: false
+---
+QRP (low power) operations are a special branch of amateur radio where power does not exceed 5 watts. Today, we will build a simple QRP transceiver based on Arduino and the Si5351 frequency synthesizer.
+
+## What is QRP?
+
+QRP is an international Q-code meaning "reduce power." In amateur radio practice, QRP refers to operating with low power:
+- **HF bands**: up to 5 watts
+- **VHF/UHF**: up to 2.5 watts
+
+### Advantages of QRP:
+- **Economical**: low power consumption
+- **Portable**: compact designs
+- **Sporting interest**: challenge to establish communication with low power
+- **Learning**: deep understanding of radio engineering
+
+## Project Components
+
+### Arduino Nano
+Microcontroller for frequency control and operating modes.
+
+### Si5351 - Frequency Synthesizer
+Programmable generator with three independent outputs:
+- **Frequency Range**: 8 KHz - 160 MHz
+- **Resolution**: less than 1 Hz
+- **Stability**: ±30 ppm (with crystal)
+
+### Transceiver Schematic
+
+\`\`\`
+Arduino Nano + Si5351 QRP Transceiver
+
+[Si5351] CLK0 -> BPF -> PA (IRF510) -> LPF -> ANT
+         CLK1 -> BFO (455 kHz)
+         CLK2 -> VFO (Variable)
+
+[Arduino] -> LCD 16x2
+          -> Encoder (frequency)
+          -> PTT switch
+          -> Audio input/output
+\`\`\`
+
+## Software Code
+
+### Main Arduino Sketch
+
+\`\`\`cpp
+#include <Wire.h>
+#include <si5351.h>
+#include <LiquidCrystal.h>
+#include <Rotary.h>
+
+Si5351 si5351;
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+Rotary encoder = Rotary(6, 7);
+
+unsigned long frequency = 14074000; // 20m FT8
+unsigned long bfo = 455000;         // BFO 455 kHz
+bool transmit = false;
+
+void setup() {
+  Serial.begin(9600);
+  lcd.begin(16, 2);
+  
+  // Initialize Si5351
+  if (si5351.init(SI5351_CRYSTAL_LOAD_8PF, 0, 0)) {
+    Serial.println("Si5351 initialized");
+  }
+  
+  // Configure outputs
+  si5351.set_freq(frequency * 100ULL, SI5351_CLK0);
+  si5351.set_freq(bfo * 100ULL, SI5351_CLK1);
+  si5351.output_enable(SI5351_CLK0, 1);
+  si5351.output_enable(SI5351_CLK1, 1);
+  si5351.output_enable(SI5351_CLK2, 0);
+  
+  updateDisplay();
+}
+
+void loop() {
+  // Encoder processing
+  unsigned char result = encoder.process();
+  if (result == DIR_CW) {
+    frequency += 100;
+    updateFrequency();
+  } else if (result == DIR_CCW) {
+    frequency -= 100;
+    updateFrequency();
+  }
+  
+  // PTT check
+  if (digitalRead(8) == LOW && !transmit) {
+    startTransmit();
+  } else if (digitalRead(8) == HIGH && transmit) {
+    stopTransmit();
+  }
+  
+  delay(10);
+}
+
+void updateFrequency() {
+  si5351.set_freq(frequency * 100ULL, SI5351_CLK0);
+  updateDisplay();
+}
+
+void updateDisplay() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("QRP TRX UB4HUW");
+  lcd.setCursor(0, 1);
+  lcd.print(frequency / 1000.0, 3);
+  lcd.print(" kHz");
+  
+  if (transmit) {
+    lcd.setCursor(12, 1);
+    lcd.print("TX");
+  }
+}
+
+void startTransmit() {
+  transmit = true;
+  // Enable transmitter
+  digitalWrite(9, HIGH); // PA enable
+  updateDisplay();
+}
+
+void stopTransmit() {
+  transmit = false;
+  // Disable transmitter
+  digitalWrite(9, LOW); // PA disable
+  updateDisplay();
+}
+\`\`\`
+
+## Construction and Setup
+
+### Printed Circuit Board
+It is recommended to use double-sided fiberglass with a ground plane.
+
+### Filters
+- **BPF (Band-Pass Filter)**: crystal filter for the operating frequency
+- **LPF (Low-Pass Filter)**: suppression of transmitter harmonics
+
+### Power Amplifier
+IRF510 MOSFET in Class C for CW/FSK modes.
+
+### Calibration
+1. Connect a frequency counter to CLK0
+2. Set the exact frequency of the crystal resonator
+3. Correct the value in the Si5351 code
+
+## Testing Results
+
+### Technical Specifications:
+- **Output Power**: 3-5 W
+- **Frequency Range**: 14.000-14.350 MHz (20m)
+- **Modes**: CW, FSK (FT8/FT4)
+- **Receiver Sensitivity**: -120 dBm
+- **Consumption**: 200 mA (receive), 800 mA (transmit)
+
+### First QSOs:
+Successfully made contacts up to 3000 km with 5 W power!
+
+## Conclusion
+
+A DIY QRP transceiver is an excellent project for learning radio engineering. Arduino and Si5351 make the design simple and repeatable, and the results exceed expectations.
+
+The next step is to add digital modes and automatic antenna tuning.
+
+**73! UB4HUW** 📻
+\`\`\`

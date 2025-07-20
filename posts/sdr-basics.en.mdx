@@ -1,0 +1,110 @@
+---
+title: SDR Basics: Software Defined Radio for Beginners
+description: Dive into the world of Software Defined Radio. We cover RTL-SDR, HackRF, and other popular devices.
+date: 2024-01-15
+readTime: 8
+tags: ["SDR", "RTL-SDR", "Beginners"]
+featured: true
+---
+Software Defined Radio (SDR) has revolutionized the world of radio communication, making complex radio engineering experiments accessible to every radio amateur.
+
+## What is SDR?
+
+SDR is a radio system where components traditionally implemented in hardware (mixers, filters, amplifiers, modulators/demodulators, detectors, etc.) are instead implemented in software on a personal computer or embedded system.
+
+### Key Advantages of SDR:
+
+- **Flexibility**: One device can operate in various modes
+- **Upgradability**: New features are added through software updates
+- **Cost**: Significantly cheaper than traditional solutions
+- **Education**: An excellent tool for learning radio engineering
+
+## Popular SDR Devices
+
+### RTL-SDR (~$25)
+The most affordable solution for beginners. Based on the RTL2832U chip.
+
+**Specifications:**
+- Frequency Range: 24 MHz - 1766 MHz
+- Bandwidth: up to 3.2 MHz
+- ADC Resolution: 8-bit
+- Operating Mode: Receive only
+
+### HackRF One (~$300)
+A half-duplex SDR device with transmit capability.
+
+**Specifications:**
+- Frequency Range: 1 MHz - 6 GHz
+- Bandwidth: up to 20 MHz
+- ADC Resolution: 8-bit
+- Operating Mode: Transmit/Receive (half-duplex)
+
+### USRP B200 (~$700)
+A professional solution from Ettus Research.
+
+**Specifications:**
+- Frequency Range: 70 MHz - 6 GHz
+- Bandwidth: up to 56 MHz
+- ADC Resolution: 12-bit
+- Operating Mode: Full-duplex
+
+## Software
+
+### GNU Radio
+A powerful development environment for SDR applications.
+
+\`\`\`python
+#!/usr/bin/env python3
+from gnuradio import gr, blocks, analog
+from gnuradio import audio
+
+class fm_receiver(gr.top_block):
+  def __init__(self):
+      gr.top_block.__init__(self)
+      
+      # Create signal source
+      self.source = blocks.file_source(gr.sizeof_gr_complex, "fm_signal.dat")
+      
+      # FM demodulator
+      self.demod = analog.wfm_rcv(
+          quad_rate=240000,
+          audio_decimation=5
+      )
+      
+      # Audio output
+      self.audio_sink = audio.sink(48000)
+      
+      # Connect blocks
+      self.connect(self.source, self.demod, self.audio_sink)
+
+if __name__ == '__main__':
+  tb = fm_receiver()
+  tb.run()
+\`\`\`
+
+### SDR#
+A popular program for Windows with a simple interface.
+
+### GQRX
+A cross-platform SDR receiver based on GNU Radio.
+
+## First Experiments
+
+### 1. Receiving FM Radio Stations
+The easiest way to start with SDR.
+
+### 2. Decoding ADS-B
+Tracking aircraft using transponder signals.
+
+### 3. Receiving Weather Satellites
+Obtaining images from NOAA weather satellites.
+
+### 4. Spectrum Analysis
+Exploring the radio frequency spectrum in your area.
+
+## Conclusion
+
+SDR opens up endless possibilities for experimentation in radio engineering. Start with a simple RTL-SDR device and gradually explore more complex aspects of Software Defined Radio.
+
+**73! UB4HUW** 📻
+\`\`\`

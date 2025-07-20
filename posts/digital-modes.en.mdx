@@ -1,0 +1,142 @@
+---
+title: Digital Modes: FT8, FT4, and PSK31
+description: An overview of popular digital communication modes, software setup, and first QSOs.
+date: 2023-12-28
+readTime: 10
+tags: ["Digital Modes", "FT8", "PSK31", "WSJT-X"]
+featured: false
+---
+Digital communication modes have revolutionized amateur radio, allowing for contacts in weak signal and noisy conditions. Let's look at three of the most popular modes.
+
+## FT8 - The King of Weak Signals
+
+FT8 (Franke-Taylor 8-FSK) was developed by Joe Taylor K1JT and Steve Franke K9AN specifically for operating in very weak signal conditions.
+
+### FT8 Features:
+- **Transmission Duration**: 12.64 seconds
+- **Frequency Bandwidth**: 50 Hz
+- **Minimum S/N**: -20 dB
+- **Automatic Mode**: minimal operator intervention
+- **Synchronization**: precise UTC time is mandatory
+
+### FT8 Message Structure:
+\`\`\`
+CQ UB4HUW KO85        # CQ call
+UB4HUW W1ABC FN42     # Reply with locator  
+W1ABC UB4HUW -15      # S/N report in dB
+UB4HUW W1ABC R-18     # Report confirmation
+W1ABC UB4HUW RR73     # Final confirmation
+UB4HUW W1ABC 73       # End of QSO
+\`\`\`
+
+## FT4 - FT8's Faster Sibling
+
+FT4 was created for contests and quick QSOs.
+
+### Differences from FT8:
+- **Duration**: 7.5 seconds (1.7 times faster)
+- **Sensitivity**: 2 dB worse than FT8
+- **Throughput**: higher due to speed
+- **Application**: contests, pile-ups, DX expeditions
+
+### FT8 vs FT4 Comparison:
+| Parameter | FT8 | FT4 |
+|----------|-----|-----|
+| Duration | 12.64 s | 7.5 s |
+| Sensitivity | -20 dB | -18 dB |
+| QSOs per hour | ~120 | ~200 |
+| Bandwidth | 50 Hz | 50 Hz |
+
+## PSK31 - A Classic Digital Mode
+
+PSK31 (Phase Shift Keying 31.25 baud) is one of the first popular digital modes.
+
+### PSK31 Advantages:
+- **Narrow Bandwidth**: 31.25 Hz
+- **Real-time**: live communication like phone
+- **Simplicity**: does not require precise time synchronization
+- **Efficiency**: good performance with weak signals
+
+### PSK31 Variants:
+- **BPSK31**: Binary PSK (2 phases)
+- **QPSK31**: Quadrature PSK (4 phases, 2 times faster)
+
+## Software Setup
+
+### WSJT-X for FT8/FT4
+
+\`\`\`
+WSJT-X Settings:
+1. Radio -> Rig: select transceiver model
+2. Audio -> Input/Output: configure sound devices
+3. Frequencies: set operating frequencies
+4. Reporting: enable PSK Reporter for monitoring
+5. Advanced: configure power and delays
+\`\`\`
+
+### Frequencies for Digital Modes:
+- **80m**: 3.573 MHz (FT8), 3.575 MHz (PSK31)
+- **40m**: 7.074 MHz (FT8), 7.035 MHz (PSK31)  
+- **20m**: 14.074 MHz (FT8), 14.070 MHz (PSK31)
+- **15m**: 21.074 MHz (FT8), 21.070 MHz (PSK31)
+- **10m**: 28.074 MHz (FT8), 28.120 MHz (PSK31)
+
+### Fldigi for PSK31
+
+\`\`\`
+Fldigi Settings:
+1. Configure -> Sound Card: select audio devices
+2. Configure -> Rig Control: configure CAT control
+3. Op Mode -> PSK -> PSK31: select mode
+4. Waterfall: configure spectrum display
+5. Macros: create templates for QSOs
+\`\`\`
+
+## Practical Tips
+
+### For FT8/FT4:
+1. **Accurate Time**: use NTP synchronization
+2. **Audio Levels**: do not overload transceiver input
+3. **Frequency**: operate within allocated segments
+4. **Power**: start with minimum necessary power
+
+### For PSK31:
+1. **Frequency Tuning**: precisely to correspondent's carrier
+2. **IMD**: monitor intermodulation distortion
+3. **Typing Speed**: don't rush, PSK31 forgives errors
+4. **Macros**: use pre-defined phrases
+
+## Digital Mode Etiquette
+
+### FT8 Etiquette:
+- Do not reply to CQ if not ready for a full QSO
+- Use the minimum necessary power
+- Do not operate in Fox/Hound mode without experience
+- Observe time slots
+
+### PSK31 Etiquette:
+- Listen before transmitting
+- Use correct abbreviations
+- Do not interrupt other QSOs
+- End transmissions with "K" or "AR"
+
+## My Experience with Digital Modes
+
+In a year of operating digital modes:
+- **FT8**: 1247 QSOs, 89 countries, 32 zones
+- **FT4**: 156 QSOs (mostly contests)
+- **PSK31**: 234 QSOs (long conversations)
+
+### Interesting Contacts:
+- **FT8**: VK2 with 5W power on a dipole
+- **PSK31**: 2-hour conversation with JA1 about technology
+- **FT4**: 47 countries in one contest
+
+## Conclusion
+
+Digital modes open up new possibilities in radio communication. FT8 is ideal for DX hunting, FT4 for contests, and PSK31 for genuine communication.
+
+Each mode has its place in the modern radio amateur's arsenal. Try them all and find your favorite!
+
+**73! UB4HUW** 📻
+\`\`\`
