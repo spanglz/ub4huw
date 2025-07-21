@@ -96,6 +96,7 @@ export default async function QSLPage() {
   let qsoData = [];
   try {
     const response = await fetch('https://api.logradio.ru/ham/qso', {
+      cache: 'no-store',
       headers: {
         'Accept': 'application/json, text/javascript, */*; q=0.01',
         'Authorization': 'Bearer IApd8NnbJk79hnAMM3HsLhyCA1IuOi0gE9ExccZSlnRzZDgkzQHePWRcMWREbovDoUOM8FUBG1Sg035_Mb8li-uN9nwq0Oww5GEsxxLobYdGYMfQpjYPmTYSj7-q62GeW2fkZ9CJvgplfjoOyQ6nDq2u0WexCFIXa0BFa3UxTUcRg9EehoRzbAa91YWBXUy1W1G5NTerOS8pzT9j2vASVxDlJPdFSBmrbkeQkqhAffhhXuZmqkZYPGMhUrk8HdMR',
